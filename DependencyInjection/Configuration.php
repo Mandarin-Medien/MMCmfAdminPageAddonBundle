@@ -18,7 +18,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('mm_cmf_page_addon');
+        $rootNode = $treeBuilder->root('mm_cmf_admin_page_addon');
 
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for

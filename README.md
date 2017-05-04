@@ -19,17 +19,6 @@ It integrates the MMCmfContentBundle/Page-Entity into the admin backend.
 ...
 ```
 
-### Append to src/MY_CUSTOM_ADMIN_BUNDLE/config/config.yml
-
-```
-...
-
-imports:
-  - { resource: "@MMCmfAdminPageAddonBundle/Resources/config/services.yml" }
-    
-...
-```
-
 ### Append to src/MY_CUSTOM_ADMIN_BUNDLE/config/routing.yml
 
 ```

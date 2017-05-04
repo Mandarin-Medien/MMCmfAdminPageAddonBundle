@@ -7,3 +7,5 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 class MMCmfAdminPageAddonBundle extends Bundle
 {
 }
+
+
