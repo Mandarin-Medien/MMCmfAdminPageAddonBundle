@@ -1,0 +1,6 @@
+services:
+    mm_cmf.admin.page_type:
+        class: MandarinMedien\MMCmf\Admin\PageAddonBundle\Form\PageType
+        arguments: ["@service_container"]
+        tags:
+            - { name: form.type, alias: mm_cmf_admin_page }

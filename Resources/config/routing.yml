@@ -1,0 +1,23 @@
+mm_cmf_admin_page_addon_page:
+    path:     /
+    defaults: { _controller: MMCmfAdminPageAddonBundle:PageAdmin:index }
+
+mm_cmf_admin_page_addon_page_new:
+    path:     /new/
+    defaults: { _controller: MMCmfAdminPageAddonBundle:PageAdmin:new }
+
+mm_cmf_admin_page_addon_page_delete:
+    path:     /{id}/delete
+    defaults: { _controller: MMCmfAdminPageAddonBundle:PageAdmin:delete }
+
+mm_cmf_admin_page_addon_page_create:
+    path:     /create
+    defaults: { _controller: MMCmfAdminPageAddonBundle:PageAdmin:create }
+
+mm_cmf_admin_page_addon_page_edit:
+    path:     /{id}/edit
+    defaults: { _controller: MMCmfAdminPageAddonBundle:PageAdmin:edit }
+
+mm_cmf_admin_page_addon_page_update:
+    path:     /{id}/update
+    defaults: { _controller: MMCmfAdminPageAddonBundle:PageAdmin:update }

@@ -1,0 +1,68 @@
+{% extends '@MMAdmin/Admin/page.html.twig' %}
+
+{% set pageHeadline = "Pagemanagment Section" %}
+{% set pageSubline = "" %}
+
+{% block admin_page_body %}
+
+    {% set entity = form.vars.data %}
+
+    <div class="box box-default">
+        <div class="box-header"><h2 class="box-title">Seite bearbeiten</h2></div>
+        <div class="box-body">
+            {% block admin_content %}
+                {{ form_start(form) }}
+
+                {% set buttongroup %}
+                    <div class="form-actions clearfix">
+                        {{ form_widget(form.submit) }}
+                        {{ form_widget(form.save_and_add) }}
+                        {{ form_widget(form.save_and_back) }}
+
+                        <a class="btn btn-warning btn-abort" href="{{ path('mm_cmf_admin_page_addon_page') }}">
+                            <i class="fa fa-close"></i> {{ 'abort'|trans }}</a>
+                    </div>
+                {% endset %}
+
+                <div class="form-side">
+                    {{ form_widget(form.visible) }}
+                </div>
+
+                <div class="form-main col-xs-8">
+                    {{ form_rest(form) }}
+                </div>
+
+                {#<div class="form-sub col-xs-4">#}
+
+                    {#<div class="form-group">#}
+                        {#<div class="btn-group">#}
+                            {#<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
+                                {#Neue Route hinzufügen <span class="caret"></span>#}
+                            {#</button>#}
+                            {#<ul class="dropdown-menu">#}
+                                {#<li><a rel="ajax" href="{{ path('mm_cmf_admin_noderoute_new', { node_route_type: 'alias', page: form.vars.data.id }) }}">alias</a></li>#}
+                                {#<li><a rel="ajax" href="{{ path('mm_cmf_admin_noderoute_new', { node_route_type: 'redirect', page: form.vars.data.id }) }}">redirect</a></li>#}
+                            {#</ul>#}
+                        {#</div>#}
+                    {#</div>#}
+                    {#<div class="form-group">#}
+                        {#<div class="list-group">#}
+                            {#{% for route in form.vars.data.routes %}#}
+                                {#<a class="list-group-item" rel="ajax" href="{{ path('mm_cmf_admin_noderoute_edit', {id: route.id}) }}">#}
+                                    {#{{ route.route }}#}
+                                    {#{% set discr = node_route_factory.getDiscriminatorByClass(route) %}#}
+                                    {#<span class="pull-right label label-{% if discr == 'auto' %}primary{% else %}default{% endif %}">{{ node_route_factory.getDiscriminatorByClass(route)|trans }}</span>#}
+                                {#</a>#}
+                            {#{% endfor %}#}
+                        {#</div>#}
+                    {#</div>#}
+                {#</div>#}
+
+                <div class="form-foot col-xs-12">
+                    {{ buttongroup }}
+                </div>
+                {{ form_end(form) }}
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}

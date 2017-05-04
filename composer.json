@@ -1,0 +1,29 @@
+{
+  "name": "mandarinmedien/mmcmfadminpageaddonbundle",
+  "description": "Integrates a CRUD/Administration-GUI of MMCmfContentPage into the MMAdminBundle.",
+  "type": "symfony-bundle",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Christof Hufnagel",
+      "email": "ch@mandarin-medien.de"
+    },
+    {
+      "name": "Toni Gurski",
+      "email": "tg@mandarin-medien.de"
+    }
+  ],
+  "autoload": {
+    "psr-0": {
+      "MandarinMedien\\MMCmfAdminPageAddonBundle": ""
+    }
+  },
+  "target-dir": "MandarinMedien/MMCmfAdminPageAddonBundle",
+  "require": {
+    "mandarinmedien/mmcmfcontentbundle": "^0.1",
+    "mandarinmedien/mmadminbundle": "@dev-master"
+  },
+  "suggest": {
+
+  }
+}
