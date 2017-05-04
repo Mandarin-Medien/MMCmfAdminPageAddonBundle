@@ -40,7 +40,7 @@ class PageAdminController extends BaseController
                     return $router->generate('mm_cmf_admin_page_addon_page_new');
                 }
             ]);
-        $userList->addParameter('pageHeadline','Pagemanagement Section');
+        $userList->addParameter('pageHeadline', 'Pagemanagement Section');
 
         return $this->renderWidget($userList);
     }
@@ -52,7 +52,7 @@ class PageAdminController extends BaseController
     public function newAction(Request $request)
     {
         $entity = new Page();
-        $form   = $this->createCreateForm($entity);
+        $form = $this->createCreateForm($entity);
 
         return $this->render(
             'MMCmfAdminPageAddonBundle:Page:new.html.twig',
@@ -64,6 +64,25 @@ class PageAdminController extends BaseController
 
     }
 
+    /**
+     * checks if the MMCmf/Admin/RoutingAddonBundle is installed to show further configurations
+     *
+     * @return bool|null
+     */
+    protected function isRoutingAddonEnabled()
+    {
+        static $routingAddonIsEnabled = null;
+
+        if ($routingAddonIsEnabled === null) {
+
+            $routingAddonIsEnabled = array_key_exists(
+                'MMCmfAdminRoutingAddonBundle',
+                $this->container->getParameter('kernel.bundles')
+            );
+        }
+        return $routingAddonIsEnabled;
+
+    }
 
     /**
      * @param Request $request
@@ -109,7 +128,7 @@ class PageAdminController extends BaseController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('MMCmfContentBundle:Page')->findOneBy(array('id'=>$id));
+        $entity = $em->getRepository('MMCmfContentBundle:Page')->findOneBy(array('id' => $id));
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Page entity.');
@@ -122,7 +141,8 @@ class PageAdminController extends BaseController
             'MMCmfAdminPageAddonBundle:Page:edit.html.twig',
             array(
                 'entity' => $entity,
-                'form'   => $editForm->createView(),
+                'form' => $editForm->createView(),
+                'isRoutingAddonEnabled' => $this->isRoutingAddonEnabled()
             )
         );
     }
@@ -194,8 +214,7 @@ class PageAdminController extends BaseController
             throw $this->createNotFoundException('Unable to find Article entity.');
         }
 
-        if($parent = $entity->getParent())
-        {
+        if ($parent = $entity->getParent()) {
             $parent->removeNode($entity);
         }
 
@@ -217,7 +236,6 @@ class PageAdminController extends BaseController
             ->setAction($this->generateUrl('mm_cmf_admin_page_addon_page_delete', array('id' => $id)))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
-            ;
+            ->getForm();
     }
 }

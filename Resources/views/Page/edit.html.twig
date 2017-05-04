@@ -32,31 +32,9 @@
                     {{ form_rest(form) }}
                 </div>
 
-                {#<div class="form-sub col-xs-4">#}
-
-                    {#<div class="form-group">#}
-                        {#<div class="btn-group">#}
-                            {#<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
-                                {#Neue Route hinzufügen <span class="caret"></span>#}
-                            {#</button>#}
-                            {#<ul class="dropdown-menu">#}
-                                {#<li><a rel="ajax" href="{{ path('mm_cmf_admin_noderoute_new', { node_route_type: 'alias', page: form.vars.data.id }) }}">alias</a></li>#}
-                                {#<li><a rel="ajax" href="{{ path('mm_cmf_admin_noderoute_new', { node_route_type: 'redirect', page: form.vars.data.id }) }}">redirect</a></li>#}
-                            {#</ul>#}
-                        {#</div>#}
-                    {#</div>#}
-                    {#<div class="form-group">#}
-                        {#<div class="list-group">#}
-                            {#{% for route in form.vars.data.routes %}#}
-                                {#<a class="list-group-item" rel="ajax" href="{{ path('mm_cmf_admin_noderoute_edit', {id: route.id}) }}">#}
-                                    {#{{ route.route }}#}
-                                    {#{% set discr = node_route_factory.getDiscriminatorByClass(route) %}#}
-                                    {#<span class="pull-right label label-{% if discr == 'auto' %}primary{% else %}default{% endif %}">{{ node_route_factory.getDiscriminatorByClass(route)|trans }}</span>#}
-                                {#</a>#}
-                            {#{% endfor %}#}
-                        {#</div>#}
-                    {#</div>#}
-                {#</div>#}
+                {% if isRoutingAddonEnabled %}
+                    {% include '@MMCmfAdminPageAddon/Page/routes.html.twig' %}
+                {% endif %}
 
                 <div class="form-foot col-xs-12">
                     {{ buttongroup }}
