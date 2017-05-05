@@ -30,3 +30,13 @@ mm_cmf_page_addon:
 
 ...
 ```
+
+### Append to src/MY_CUSTOM_ADMIN_BUNDLE/config/config.yml
+
+```
+...
+
+  - { resource: "@MMCmfAdminPageAddonBundle/Resources/config/config.yml" }
+
+...
+```

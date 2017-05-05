@@ -1,0 +1,7 @@
+{% extends '@MMAdmin/FormGroup/mm_admin_form_group_theme.html.twig'  %}
+
+{% block page_route_widget_group_groupwidget %}
+    <div {{ block("group_attributes") }}>
+        {% include '@MMCmfAdminPageAddon/Page/routes.html.twig' with {form: group.form} %}
+    </div>
+{% endblock %}

@@ -66,12 +66,6 @@ class PageType extends AbstractType
             $builder->add($field, $formTypeReader->get($class, $field));
         }
 
-
-        /**
-         * @var Router $router
-         */
-        $router = $this->container->get('router');
-
         $builder
             ->add('parent', EntityType::class, array(
                 'class' => Page::class,
@@ -80,18 +74,6 @@ class PageType extends AbstractType
                     return $repository->createQueryBuilder('p');
                 }
             ))
-            ->add('template', TemplatableNodeTemplateType::class, array('className' => $class ))
-
-            ->add('submit', SubmitType::class, array('label' => 'save'))
-            ->add('save_and_add', SubmitType::class, array(
-                'attr' => array(
-                    'data-target' => $router->generate('mm_cmf_admin_page_addon_page_new')
-                )
-            ))
-            ->add('save_and_back', SubmitType::class, array(
-                'attr' => array(
-                    'data-target' => $router->generate('mm_cmf_admin_page_addon_page')
-                )
-            ));
+            ->add('template', TemplatableNodeTemplateType::class, array('className' => $class ));
     }
 }

@@ -1,0 +1,4 @@
+mm_form_group:
+    twig:
+        themes:
+            - "MMCmfAdminPageAddonBundle:FormGroup:cmfPageAddonFormGroup.html.twig"

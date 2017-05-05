@@ -2,10 +2,17 @@
 
 namespace MandarinMedien\MMCmf\Admin\PageAddonBundle\Controller;
 
-use MandarinMedien\MMAdminBundle\Controller\BaseController;
+use MandarinMedien\MMAdminBundle\Controller\AdminController;
+use MandarinMedien\MMAdminBundle\Form\Group\BoxType;
+use MandarinMedien\MMAdminBundle\Form\Group\LinkType;
 use MandarinMedien\MMAdminBundle\Frontend\Widget\Admin\AdminListWidget;
+use MandarinMedien\MMCmf\Admin\PageAddonBundle\Form\Group\PageRouteWidgetGroupType;
 use MandarinMedien\MMCmf\Admin\PageAddonBundle\Form\PageType;
 use MandarinMedien\MMCmfContentBundle\Entity\Page;
+use MandarinMedien\MMFormGroupBundle\Group\Type\GroupType;
+use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Tests\Fixtures\ChoiceSubType;
 use Symfony\Component\HttpFoundation\Request;
 
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -16,7 +23,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * Class PageAdminController
  * @package MandarinMedien\MMCmf\Admin\PageAddonBundle\Controller
  */
-class PageAdminController extends BaseController
+class PageAdminController extends AdminController
 {
 
     /**
@@ -127,21 +134,102 @@ class PageAdminController extends BaseController
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('MMCmfContentBundle:Page')->findOneBy(array('id' => $id));
+        $entity = $em->getRepository(Page::class)->findOneBy(array('id' => $id));
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Page entity.');
         }
 
-        $editForm = $this->createEditForm($entity);
+        /**
+         * @var Router $router
+         */
+        $router = $this->get('router');
+
+        $formTypeGroup = $this->createFormGroupBuilder(PageType::class, $entity, array(
+            'action' => $this->generateUrl('mm_cmf_admin_page_addon_page_update', array('id' => $entity->getId())),
+            'method' => 'PUT',
+            'attr' => array(
+                'rel' => 'ajax'
+            )
+        ));
+
+        $formTypeGroup
+            ->add('left',GroupType::class, ['attr' => ['class'=>'col-xs-12 col-sm-6']])
+
+            ->add('left-row',GroupType::class, ['attr' => ['class'=>'row']])
+                ->add('core', BoxType::class, ['title'=>'Stammdaten', 'attr' => ['class'=>'col-xs-12 col-md-12']])
+                    ->add('visible')->end()
+                    ->add('name')->end()
+                    ->add('position')->end()
+
+                    ->add('template')->end()
+                    ->add('parent')->end()
+
+                ->end()
+                ->add('metadata', BoxType::class, ['title'=>'Meta-Daten','attr' => ['class'=>'col-xs-12 col-sm-12']])
+                    ->add('metaTitle')->end()
+                    ->add('metaImage')->end()
+                    ->add('metaKeywords')->end()
+                    ->add('metaDescription')->end()
+                    ->add('metaRobots',ChoiceType::class, [
+                        'choices' => [
+                            'index,follow' => 'index,follow',
+                            'noindex,follow'=>'noindex,follow',
+                            'index,nofollow'=>'index,nofollow',
+                            'noindex,nofollow'=>'noindex,nofollow',
+                        ]
+                    ])->end()
+                    ->add('metaAuthor')->end()
+                ->end()
+            ->end()
+        ->end()
+        ;
+
+        /**
+         * routing widget
+         */
+        if($this->isRoutingAddonEnabled())
+            $formTypeGroup->add('routes', PageRouteWidgetGroupType::class, ['attr' => ['class'=>'col-xs-12 col-sm-6']])->end();
+
+        /**
+         * form actions
+         */
+        $formTypeGroup
+            ->add('actions', BoxType::class, ['attr' => ['class'=>'col-xs-12']])
+
+                ->add('submit', SubmitType::class, array(
+                    'label' => 'save',
+                    'attr' => [
+                        'class'=>'pull-left  btn-primary'
+                    ]))->end()
+
+                ->add('save_and_add', SubmitType::class, array(
+                    'attr' => array(
+                        'class'=>'pull-left btn-primary',
+                        'data-target' => $router->generate('mm_cmf_admin_page_addon_page_new')
+                    )
+                ))->end()
+
+                ->add('save_and_back', SubmitType::class, array(
+                    'attr' => array(
+                        'class'=>'pull-left btn-primary',
+                        'data-target' => $router->generate('mm_cmf_admin_page_addon_page')
+                    )
+                ))->end()
+
+                ->add('back',LinkType::class, [
+                    'attr' => array('class'=>'pull-right'),
+                    'title' => 'back',
+                    'href'=> $router->generate('mm_cmf_admin_page_addon_page')])->end()
+            ->end();
+
 
 
         return $this->render(
             'MMCmfAdminPageAddonBundle:Page:edit.html.twig',
             array(
                 'entity' => $entity,
-                'form' => $editForm->createView(),
+                'form' => $formTypeGroup->getGroup()->createView(),
                 'isRoutingAddonEnabled' => $this->isRoutingAddonEnabled()
             )
         );
@@ -149,6 +237,7 @@ class PageAdminController extends BaseController
 
 
     /**
+     * @deprecated
      * @param Page $entity
      * @return \Symfony\Component\Form\Form
      */
