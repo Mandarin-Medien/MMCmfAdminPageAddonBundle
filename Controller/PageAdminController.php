@@ -123,6 +123,8 @@ class PageAdminController extends AdminController
         ));
 
         $form->add('submit', SubmitType::class, array('label' => 'Create'));
+        $form->add('save_and_add', SubmitType::class, array('label' => 'Save and Add'));
+        $form->add('save_and_back', SubmitType::class, array('label' => 'Save and Back'));
 
         return $form;
     }
