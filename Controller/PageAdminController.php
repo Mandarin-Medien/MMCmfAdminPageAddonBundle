@@ -47,7 +47,7 @@ class PageAdminController extends AdminController
                     return $router->generate('mm_cmf_admin_page_addon_page_new');
                 }
             ]);
-        $userList->addParameter('pageHeadline', 'Pagemanagement Section');
+        $userList->setTitle('Pagemanagement Section');
 
         return $this->renderWidget($userList);
     }
