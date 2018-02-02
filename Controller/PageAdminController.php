@@ -326,7 +326,7 @@ class PageAdminController extends AdminController
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('mm_cmf_admin_page_addon_page_delete', array('id' => $id)))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
+            ->add('submit', SubmitType::class, array('label' => 'Delete'))
             ->getForm();
     }
 }
